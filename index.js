@@ -1,9 +1,40 @@
 var self = require("sdk/self");
 
-// a dummy function, to show how tests work.
-// to see how to test this function, look at test/test-index.js
-function dummy(text, callback) {
-  callback(text);
+var buttons = require('sdk/ui/button/action');
+
+var button = buttons.ActionButton({
+  id: "elasticmarks-sidebar-button",
+  label: "Open Elastic Bookmarks Sidebar",
+  icon: {
+    "16": "./bookmark-16.png",
+    "32": "./bookmark-32.png",
+    "64": "./bookmark-64.png"
+  },
+  onClick: handleClick
+});
+
+function handleClick(state) {
+  sidebar.show();
 }
 
-exports.dummy = dummy;
+
+var sidebar = require("sdk/ui/sidebar").Sidebar({
+    id: 'elasticmarks-sidebar',
+    title: 'Elastic Bookmarks Sidebar',
+    url: "./sidebar.html",
+    onAttach: function (worker) {
+        worker.port.on("bmquery", function(query) {
+            console.log('addon script got query: ' + query);
+            let { search, UNSORTED } = require("sdk/places/bookmarks");
+
+            search(
+                { query: query },
+                { sort: "title" }
+            ).on("end", function (results) {
+                console.log(results);
+                worker.port.emit("queryResults", results);
+            });
+        });
+    }
+});
+
