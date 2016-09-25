@@ -25,11 +25,10 @@ var sidebar = require("sdk/ui/sidebar").Sidebar({
     onAttach: function (worker) {
         worker.port.on("bmquery", function(query) {
             console.log('addon script got query: ' + query);
-            let { search, UNSORTED } = require("sdk/places/bookmarks");
+            let { search } = require("sdk/places/bookmarks");
 
             search(
-                { query: query },
-                { sort: "title" }
+                { query: query }
             ).on("end", function (results) {
                 console.log(results);
                 worker.port.emit("queryResults", results);
