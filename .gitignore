@@ -1,2 +1,5 @@
 *.xpi
 *.swp
+node_modules/
+
+*.css
