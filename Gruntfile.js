@@ -11,6 +11,9 @@ module.exports = function(grunt) {
           }
       },
       jshint: {
+          options: {
+              moz: true
+          },
           all: ['Gruntfile.js', 'index.js', 'data/**/*.js', 'test/**/*.js']
       }
   });
