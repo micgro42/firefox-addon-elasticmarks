@@ -23,7 +23,7 @@ var sidebar = require("sdk/ui/sidebar").Sidebar({
     title: 'Elastic Bookmarks Sidebar',
     url: "./sidebar.html",
     onAttach: function (worker) {
-        worker.port.on("bmquery", function(query) {
+        worker.port.on("bmquery", function(query, queryId) {
             console.log('addon script got query: ' + query);
             let { search } = require("sdk/places/bookmarks");
 
@@ -31,7 +31,7 @@ var sidebar = require("sdk/ui/sidebar").Sidebar({
                 { query: query }
             ).on("end", function (results) {
                 console.log(results);
-                worker.port.emit("queryResults", results);
+                worker.port.emit("queryResults", results, queryId);
             });
         });
     }

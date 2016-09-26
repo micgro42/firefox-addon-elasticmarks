@@ -1,7 +1,11 @@
 
-addon.port.on("queryResults", function(results) {
+addon.port.on("queryResults", function(results, id) {
     console.log("sidebar script got the results");
     console.log(results);
+    if (id != queryId) {
+        console.log('old query');
+        return;
+    }
     var resultsList = document.getElementById('searchResults');
     while (resultsList.firstChild) {
         resultsList.removeChild(resultsList.firstChild);
@@ -44,13 +48,17 @@ addon.port.on("queryResults", function(results) {
 
 });
 
-var search = document.getElementById('bmsearch');
-search.addEventListener('submit', function (event) {
-    event.preventDefault();
-    event.stopPropagation();
-    var query = document.getElementsByName('bmquery')[0].value;
+var queryId = 0;
+var submitForm = function (event) {
+    var query = document.getElementById('bmquery').value;
+    if (query.length < 3) {
+        return;
+    }
     console.log('form submitted: ' + query);
-    addon.port.emit('bmquery', query);
-});
+    queryId += 1;
+    addon.port.emit('bmquery', query, queryId);
+};
 
+
+document.getElementById('bmquery').addEventListener('input', submitForm);
 
