@@ -15,10 +15,21 @@ module.exports = function(grunt) {
               moz: true
           },
           all: ['Gruntfile.js', 'index.js', 'data/**/*.js', 'test/**/*.js']
+      },
+      watch: {
+          js: {
+              files: ['<%= jshint.all %>'],
+              tasks: ['jshint']
+          },
+          less: {
+              files: ['data/css/*.less'],
+              tasks: ['less']
+          }
       }
   });
 
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-watch');
 
 };
