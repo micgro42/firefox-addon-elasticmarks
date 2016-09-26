@@ -41,11 +41,19 @@ addon.port.on("queryResults", function(results, id) {
         cb.type = "checkbox";
         cb.title = "filter by ." + domainname;
         var label = document.createElement("LABEL");
+        label.className = "bminput domain";
         label.appendChild(document.createTextNode(domainname+" ("+domains[domainname].count+")"));
         label.appendChild(cb);
         fsdomains.appendChild(label);
     });
 
+    var search = document.querySelectorAll('.bminput');
+    search.forEach(function(element){
+        if (element.tagName == 'LABEL') {
+            element.addEventListener('click', submitForm);
+            return;
+        }
+    });
 });
 
 var queryId = 0;
