@@ -6,14 +6,25 @@ addon.port.on("queryResults", function(results, id) {
         console.log('old query');
         return;
     }
+    var fsdomains = document.getElementById('fsdomains');
+    var checkedTLDbox = fsdomains.querySelectorAll('input[type=checkbox]:checked');
+    if (checkedTLDbox.length) {
+        var checkedTLD = checkedTLDbox[0].value;
+    }
     var resultsList = document.getElementById('searchResults');
     while (resultsList.firstChild) {
         resultsList.removeChild(resultsList.firstChild);
     }
-    var domains = {};
+    var domains = {All: {
+        count: 0
+    }};
     results.forEach(function(value, index) {
         console.dir(value);
         var tld = new URL(value.url).hostname.split(".").pop();
+        domains.All.count += 1;
+        if (checkedTLD && checkedTLD != tld) {
+            return;
+        }
         if (!domains[tld]) {
             domains[tld] = {
                 count: 0
@@ -27,7 +38,6 @@ addon.port.on("queryResults", function(results, id) {
         node.appendChild(link);
         resultsList.appendChild(node);
     });
-    var fsdomains = document.getElementById('fsdomains');
     while (fsdomains.lastChild) {
         if (fsdomains.lastChild.tagName == "LEGEND") {
             break;
@@ -39,7 +49,10 @@ addon.port.on("queryResults", function(results, id) {
         console.dir(domainname);
         var cb = document.createElement("INPUT");
         cb.type = "checkbox";
-        cb.title = "filter by ." + domainname;
+        cb.value = domainname;
+        if (checkedTLD && domainname == checkedTLD) {
+            cb.checked = true;
+        }
         var label = document.createElement("LABEL");
         label.className = "bminput domain";
         label.appendChild(document.createTextNode(domainname+" ("+domains[domainname].count+")"));
