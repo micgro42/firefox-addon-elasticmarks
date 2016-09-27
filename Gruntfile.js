@@ -1,3 +1,4 @@
+"use strict";
 module.exports = function(grunt) {
 
   grunt.initConfig({
@@ -12,7 +13,18 @@ module.exports = function(grunt) {
       },
       jshint: {
           options: {
-              moz: true
+              moz: true,
+              curly: true,
+              forin: true,
+              freeze: true,
+              globals: {addon: true},
+              strict: "global",
+              undef: true,
+              unused: true,
+              plusplus: true,
+              browser: true,
+              node: true,
+              devel: true
           },
           all: ['Gruntfile.js', 'index.js', 'data/**/*.js', 'test/**/*.js']
       },

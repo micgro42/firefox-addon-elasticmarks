@@ -1,4 +1,4 @@
-
+"use strict";
 addon.port.on("queryResults", function(results, id) {
     console.log("sidebar script got the results");
     console.log(results);
@@ -44,7 +44,7 @@ addon.port.on("queryResults", function(results, id) {
         }
         fsdomains.removeChild(fsdomains.lastChild);
     }
-    domainList = Object.keys(domains);
+    var domainList = Object.keys(domains);
     domainList.forEach(function(domainname, index) {
         console.dir(domainname);
         var cb = document.createElement("INPUT");

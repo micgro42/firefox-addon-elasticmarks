@@ -1,3 +1,4 @@
+"use strict";
 var self = require("sdk/self");
 
 var buttons = require('sdk/ui/button/action');
