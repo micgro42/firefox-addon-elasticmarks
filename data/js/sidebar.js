@@ -50,13 +50,15 @@ addon.port.on("queryResults", function(results, id) {
         var cb = document.createElement("INPUT");
         cb.type = "checkbox";
         cb.value = domainname;
+        cb.id = "domain-" + domainname;
         if (checkedTLD && domainname == checkedTLD) {
             cb.checked = true;
         }
         var label = document.createElement("LABEL");
         label.className = "bminput domain";
+        label.htmlFor = cb.id;
         label.appendChild(document.createTextNode(domainname+" ("+domains[domainname].count+")"));
-        label.appendChild(cb);
+        fsdomains.appendChild(cb);
         fsdomains.appendChild(label);
     });
 
