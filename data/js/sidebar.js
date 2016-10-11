@@ -1,6 +1,6 @@
-"use strict";
-addon.port.on("queryResults", function(results, id) {
-    console.log("sidebar script got the results");
+'use strict';
+addon.port.on('queryResults', function(results, id) {
+    console.log('sidebar script got the results');
     console.log(results);
     if (id != queryId) {
         console.log('old query');
@@ -20,7 +20,7 @@ addon.port.on("queryResults", function(results, id) {
     }};
     results.forEach(function(value, index) {
         console.dir(value);
-        var tld = new URL(value.url).hostname.split(".").pop();
+        var tld = new URL(value.url).hostname.split('.').pop();
         domains.All.count += 1;
         if (checkedTLD && checkedTLD != tld) {
             return;
@@ -31,15 +31,15 @@ addon.port.on("queryResults", function(results, id) {
             };
         }
         domains[tld].count += 1;
-        var link = document.createElement("A");
+        var link = document.createElement('A');
         link.href = value.url;
         link.appendChild(document.createTextNode(value.title));
-        var node = document.createElement("LI");
+        var node = document.createElement('LI');
         node.appendChild(link);
         resultsList.appendChild(node);
     });
     while (fsdomains.lastChild) {
-        if (fsdomains.lastChild.tagName == "LEGEND") {
+        if (fsdomains.lastChild.tagName == 'LEGEND') {
             break;
         }
         fsdomains.removeChild(fsdomains.lastChild);
@@ -47,17 +47,17 @@ addon.port.on("queryResults", function(results, id) {
     var domainList = Object.keys(domains);
     domainList.forEach(function(domainname, index) {
         console.dir(domainname);
-        var cb = document.createElement("INPUT");
-        cb.type = "checkbox";
+        var cb = document.createElement('INPUT');
+        cb.type = 'checkbox';
         cb.value = domainname;
-        cb.id = "domain-" + domainname;
+        cb.id = 'domain-' + domainname;
         if (checkedTLD && domainname == checkedTLD) {
             cb.checked = true;
         }
-        var label = document.createElement("LABEL");
-        label.className = "bminput domain";
+        var label = document.createElement('LABEL');
+        label.className = 'bminput domain';
         label.htmlFor = cb.id;
-        label.appendChild(document.createTextNode(domainname+" ("+domains[domainname].count+")"));
+        label.appendChild(document.createTextNode(domainname+' ('+domains[domainname].count+')'));
         fsdomains.appendChild(cb);
         fsdomains.appendChild(label);
     });

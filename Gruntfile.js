@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 module.exports = function(grunt) {
 
   grunt.initConfig({
@@ -6,7 +6,7 @@ module.exports = function(grunt) {
       less: {
           development: {
               files: {
-                  "data/css/sidebar.css": "data/css/sidebar.less"
+                  'data/css/sidebar.css': 'data/css/sidebar.less'
               },
               options: {}
           }
@@ -18,7 +18,7 @@ module.exports = function(grunt) {
               forin: true,
               freeze: true,
               globals: {addon: true},
-              strict: "global",
+              strict: 'global',
               undef: true,
               unused: true,
               plusplus: true,

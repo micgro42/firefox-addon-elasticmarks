@@ -1,15 +1,15 @@
-"use strict";
-var self = require("sdk/self");
+'use strict';
+var self = require('sdk/self');
 
 var buttons = require('sdk/ui/button/action');
 
 var button = buttons.ActionButton({
-  id: "elasticmarks-sidebar-button",
-  label: "Open Elastic Bookmarks Sidebar",
+  id: 'elasticmarks-sidebar-button',
+  label: 'Open Elastic Bookmarks Sidebar',
   icon: {
-    "16": "./bookmark-16.png",
-    "32": "./bookmark-32.png",
-    "64": "./bookmark-64.png"
+    '16': './bookmark-16.png',
+    '32': './bookmark-32.png',
+    '64': './bookmark-64.png'
   },
   onClick: handleClick
 });
@@ -19,20 +19,20 @@ function handleClick(state) {
 }
 
 
-var sidebar = require("sdk/ui/sidebar").Sidebar({
+var sidebar = require('sdk/ui/sidebar').Sidebar({
     id: 'elasticmarks-sidebar',
     title: 'Elastic Bookmarks Sidebar',
-    url: "./sidebar.html",
+    url: './sidebar.html',
     onAttach: function (worker) {
-        worker.port.on("bmquery", function(query, queryId) {
+        worker.port.on('bmquery', function(query, queryId) {
             console.log('addon script got query: ' + query);
-            let { search } = require("sdk/places/bookmarks");
+            let { search } = require('sdk/places/bookmarks');
 
             search(
                 { query: query }
-            ).on("end", function (results) {
+            ).on('end', function (results) {
                 console.log(results);
-                worker.port.emit("queryResults", results, queryId);
+                worker.port.emit('queryResults', results, queryId);
             });
         });
     }
