@@ -3,18 +3,18 @@
 var buttons = require('sdk/ui/button/action');
 
 buttons.ActionButton({
-  id: 'elasticmarks-sidebar-button',
-  label: 'Open Elastic Bookmarks Sidebar',
-  icon: {
-    '16': './bookmark-16.png',
-    '32': './bookmark-32.png',
-    '64': './bookmark-64.png'
-  },
-  onClick: handleClick
+    id: 'elasticmarks-sidebar-button',
+    label: 'Open Elastic Bookmarks Sidebar',
+    icon: {
+        '16': './bookmark-16.png',
+        '32': './bookmark-32.png',
+        '64': './bookmark-64.png'
+    },
+    onClick: handleClick
 });
 
 function handleClick() {
-  sidebar.show();
+    sidebar.show();
 }
 
 
