@@ -1,9 +1,6 @@
 'use strict';
 addon.port.on('queryResults', function(results, id) {
-    console.log('sidebar script got the results');
-    console.log(results);
     if (id !== queryId) {
-        console.log('old query');
         return;
     }
     var fsdomains = document.getElementById('fsdomains');
@@ -19,7 +16,6 @@ addon.port.on('queryResults', function(results, id) {
         count: 0
     }};
     results.forEach(function(value) {
-        console.dir(value);
         var tld = new URL(value.url).hostname.split('.').pop();
         domains.All.count += 1;
         if (checkedTLD && checkedTLD !== tld) {
@@ -46,7 +42,6 @@ addon.port.on('queryResults', function(results, id) {
     }
     var domainList = Object.keys(domains);
     domainList.forEach(function(domainname) {
-        console.dir(domainname);
         var cb = document.createElement('INPUT');
         cb.type = 'checkbox';
         cb.value = domainname;
@@ -78,7 +73,6 @@ var submitForm = function () {
     if (query.length < MIN_QUERY_LENGTH) {
         return;
     }
-    console.log('form submitted: ' + query);
     queryId += 1;
     addon.port.emit('bmquery', query, queryId);
 };

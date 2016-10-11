@@ -24,13 +24,11 @@ var sidebar = require('sdk/ui/sidebar').Sidebar({
     url: './sidebar.html',
     onAttach: function (worker) {
         worker.port.on('bmquery', function(query, queryId) {
-            console.log('addon script got query: ' + query);
             let { search } = require('sdk/places/bookmarks');
 
             search(
                 { query: query }
             ).on('end', function (results) {
-                console.log(results);
                 worker.port.emit('queryResults', results, queryId);
             });
         });
