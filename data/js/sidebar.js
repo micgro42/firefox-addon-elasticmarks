@@ -74,7 +74,8 @@ addon.port.on('queryResults', function(results, id) {
 var queryId = 0;
 var submitForm = function () {
     var query = document.getElementById('bmquery').value;
-    if (query.length < 3) {
+    const MIN_QUERY_LENGTH = 3;
+    if (query.length < MIN_QUERY_LENGTH) {
         return;
     }
     console.log('form submitted: ' + query);
