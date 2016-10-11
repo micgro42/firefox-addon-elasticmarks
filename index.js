@@ -1,9 +1,8 @@
 'use strict';
-var self = require('sdk/self');
 
 var buttons = require('sdk/ui/button/action');
 
-var button = buttons.ActionButton({
+buttons.ActionButton({
   id: 'elasticmarks-sidebar-button',
   label: 'Open Elastic Bookmarks Sidebar',
   icon: {
@@ -14,7 +13,7 @@ var button = buttons.ActionButton({
   onClick: handleClick
 });
 
-function handleClick(state) {
+function handleClick() {
   sidebar.show();
 }
 

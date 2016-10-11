@@ -18,7 +18,7 @@ addon.port.on('queryResults', function(results, id) {
     var domains = {All: {
         count: 0
     }};
-    results.forEach(function(value, index) {
+    results.forEach(function(value) {
         console.dir(value);
         var tld = new URL(value.url).hostname.split('.').pop();
         domains.All.count += 1;
@@ -45,7 +45,7 @@ addon.port.on('queryResults', function(results, id) {
         fsdomains.removeChild(fsdomains.lastChild);
     }
     var domainList = Object.keys(domains);
-    domainList.forEach(function(domainname, index) {
+    domainList.forEach(function(domainname) {
         console.dir(domainname);
         var cb = document.createElement('INPUT');
         cb.type = 'checkbox';
@@ -72,7 +72,7 @@ addon.port.on('queryResults', function(results, id) {
 });
 
 var queryId = 0;
-var submitForm = function (event) {
+var submitForm = function () {
     var query = document.getElementById('bmquery').value;
     if (query.length < 3) {
         return;
