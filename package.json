@@ -14,9 +14,11 @@
     "jetpack"
   ],
   "devDependencies": {
+    "eslint": "^3.7.0",
     "grunt": "^1.0.1",
     "grunt-contrib-jshint": "^1.0.0",
     "grunt-contrib-less": "^1.4.0",
-    "grunt-contrib-watch": "^1.0.0"
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-eslint": "^19.0.0"
   }
 }

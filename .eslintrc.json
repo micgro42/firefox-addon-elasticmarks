@@ -1,7 +1,11 @@
 {
     "env": {
         "browser": true,
-        "es6": true
+        "es6": true,
+        "node": true
+    },
+    "globals": {
+        "addon": false
     },
     "extends": "eslint:recommended",
     "rules": {
@@ -28,12 +32,11 @@
         "eqeqeq": ["error", "smart"],
         "no-caller": "error",
         "no-implicit-globals": "error",
-        "no-magic-numbers": "warn",
+        "no-magic-numbers": ["warn", {"ignore": [0, 1]}],
         "no-new-func": "error",
         "no-new": "error",
         "no-return-assign": "error",
         "no-self-compare": "error",
         "no-throw-literal": "error"
-        
     }
 }
