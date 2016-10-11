@@ -2,7 +2,7 @@
 addon.port.on('queryResults', function(results, id) {
     console.log('sidebar script got the results');
     console.log(results);
-    if (id != queryId) {
+    if (id !== queryId) {
         console.log('old query');
         return;
     }
@@ -22,7 +22,7 @@ addon.port.on('queryResults', function(results, id) {
         console.dir(value);
         var tld = new URL(value.url).hostname.split('.').pop();
         domains.All.count += 1;
-        if (checkedTLD && checkedTLD != tld) {
+        if (checkedTLD && checkedTLD !== tld) {
             return;
         }
         if (!domains[tld]) {
@@ -39,7 +39,7 @@ addon.port.on('queryResults', function(results, id) {
         resultsList.appendChild(node);
     });
     while (fsdomains.lastChild) {
-        if (fsdomains.lastChild.tagName == 'LEGEND') {
+        if (fsdomains.lastChild.tagName === 'LEGEND') {
             break;
         }
         fsdomains.removeChild(fsdomains.lastChild);
@@ -51,7 +51,7 @@ addon.port.on('queryResults', function(results, id) {
         cb.type = 'checkbox';
         cb.value = domainname;
         cb.id = 'domain-' + domainname;
-        if (checkedTLD && domainname == checkedTLD) {
+        if (checkedTLD && domainname === checkedTLD) {
             cb.checked = true;
         }
         var label = document.createElement('LABEL');
@@ -64,7 +64,7 @@ addon.port.on('queryResults', function(results, id) {
 
     var search = document.querySelectorAll('.bminput');
     search.forEach(function(element){
-        if (element.tagName == 'LABEL') {
+        if (element.tagName === 'LABEL') {
             element.addEventListener('click', submitForm);
             return;
         }
