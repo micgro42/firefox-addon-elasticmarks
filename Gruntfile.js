@@ -24,6 +24,7 @@ module.exports = function(grunt) {
                 plusplus: true,
                 browser: true,
                 node: true,
+                qunit: true,
                 devel: true
             },
             all: ['Gruntfile.js', 'index.js', 'data/**/*.js', 'test/**/*.js']
