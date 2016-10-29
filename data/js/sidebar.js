@@ -1,4 +1,31 @@
 'use strict';
+var elasticmarks = elasticmarks || {};
+
+elasticmarks.domainfilter = function domainfilter(result, checkedTLD) {
+    const tld = new URL(result.url).hostname.split('.').pop();
+    return !(checkedTLD && checkedTLD !== tld);
+};
+
+elasticmarks.domaincount = function(domains, bookmark) {
+    const tld = new URL(bookmark.url).hostname.split('.').pop();
+    if (!domains[tld]) {
+        domains[tld] = {
+            count: 0
+        };
+    }
+    domains[tld].count += 1;
+    return domains;
+};
+
+elasticmarks.createElements = function(result) {
+    var link = document.createElement('A');
+    link.href = result.url;
+    link.appendChild(document.createTextNode(result.title));
+    var node = document.createElement('LI');
+    node.appendChild(link);
+    return node;
+};
+
 addon.port.on('queryResults', function(results, id) {
     if (id !== queryId) {
         return;
@@ -12,28 +39,15 @@ addon.port.on('queryResults', function(results, id) {
     while (resultsList.firstChild) {
         resultsList.removeChild(resultsList.firstChild);
     }
-    var domains = {All: {
-        count: 0
+    const domainInitial = {All: {
+        count: results.length
     }};
-    results.forEach(function(value) {
-        var tld = new URL(value.url).hostname.split('.').pop();
-        domains.All.count += 1;
-        if (checkedTLD && checkedTLD !== tld) {
-            return;
-        }
-        if (!domains[tld]) {
-            domains[tld] = {
-                count: 0
-            };
-        }
-        domains[tld].count += 1;
-        var link = document.createElement('A');
-        link.href = value.url;
-        link.appendChild(document.createTextNode(value.title));
-        var node = document.createElement('LI');
-        node.appendChild(link);
-        resultsList.appendChild(node);
-    });
+    const filteredResults = results.filter(result => elasticmarks.domainfilter(result, checkedTLD));
+    const domains = filteredResults.reduce(elasticmarks.domaincount, domainInitial);
+    filteredResults.map(elasticmarks.createElements)
+        .map(bookmark => resultsList.appendChild(bookmark));
+
+
     while (fsdomains.lastChild) {
         if (fsdomains.lastChild.tagName === 'LEGEND') {
             break;
