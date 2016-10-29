@@ -28,8 +28,9 @@ var sidebar = require('sdk/ui/sidebar').Sidebar({
 
             search(
                 { query: query }
-            ).on('end', function (results) {
-                worker.port.emit('queryResults', results, queryId);
+            ).on('end', function (bookmarks) {
+                const fixedBookmarks = bookmarks.map(bookmark => {bookmark.tags = [...bookmark.tags]; return bookmark;});
+                worker.port.emit('queryResults', fixedBookmarks, queryId);
             });
         });
     }
