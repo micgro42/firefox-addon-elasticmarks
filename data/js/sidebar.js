@@ -53,6 +53,30 @@ elasticmarks.displayDomains = function (fsdomains, domains, checkedTLD) {
     });
 };
 
+elasticmarks.displayTags = function (fstags, tags) {
+    while (fstags.lastChild) {
+        if (fstags.lastChild.tagName === 'LEGEND') {
+            break;
+        }
+        fstags.removeChild(fstags.lastChild);
+    }
+    Object.keys(tags).reduce(function(fstags, tagname) {
+        var cb = document.createElement('INPUT');
+        cb.type = 'checkbox';
+        cb.value = tagname;
+        cb.id = 'tag-' + tagname;
+        const count = tags[tagname];
+        var label = document.createElement('LABEL');
+        label.className = 'bminput tag';
+        label.htmlFor = cb.id;
+        label.appendChild(document.createTextNode(tagname+' ('+count+')'));
+        label.style.order = -count;
+        fstags.appendChild(cb);
+        fstags.appendChild(label);
+        return fstags;
+    },fstags);
+};
+
 addon.port.on('queryResults', function(results, id) {
     if (id !== queryId) {
         return;
@@ -72,7 +96,11 @@ addon.port.on('queryResults', function(results, id) {
     filteredResults.map(elasticmarks.createElements)
         .map(bookmark => resultsList.appendChild(bookmark));
 
+    const fstags = document.getElementById('fstags');
+    const tags = filteredResults.reduce(elasticmarks.tagCounter, {});
+
     elasticmarks.displayDomains(fsdomains, domains, checkedTLD);
+    elasticmarks.displayTags(fstags, tags);
 
 
     var search = document.querySelectorAll('.bminput');
