@@ -47,7 +47,7 @@ elasticmarks.displayDomains = function (fsdomains, domains, checkedTLD) {
         label.className = 'bminput domain';
         label.htmlFor = cb.id;
         label.appendChild(document.createTextNode(domainname+' ('+count+')'));
-        label.style.order = count;
+        label.style.order = -count;
         fsdomains.appendChild(cb);
         fsdomains.appendChild(label);
     });
