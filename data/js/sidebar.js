@@ -32,9 +32,7 @@ addon.port.on('queryResults', function(results, id) {
     }
     var fsdomains = document.getElementById('fsdomains');
     var checkedTLDbox = fsdomains.querySelectorAll('input[type=checkbox]:checked');
-    if (checkedTLDbox.length) {
-        var checkedTLD = checkedTLDbox[0].value;
-    }
+    const checkedTLD = checkedTLDbox.length ? checkedTLDbox[0].value : null;
     var resultsList = document.getElementById('searchResults');
     while (resultsList.firstChild) {
         resultsList.removeChild(resultsList.firstChild);
