@@ -53,7 +53,7 @@ elasticmarks.displayDomains = function (fsdomains, domains, checkedTLD) {
     });
 };
 
-elasticmarks.displayTags = function (fstags, tags) {
+elasticmarks.displayTags = function (fstags, tags, checkedTags) {
     while (fstags.lastChild) {
         if (fstags.lastChild.tagName === 'LEGEND') {
             break;
@@ -65,6 +65,9 @@ elasticmarks.displayTags = function (fstags, tags) {
         cb.type = 'checkbox';
         cb.value = tagname;
         cb.id = 'tag-' + tagname;
+        if (checkedTags && checkedTags.includes(tagname)) {
+            cb.checked = true;
+        }
         const count = tags[tagname];
         var label = document.createElement('LABEL');
         label.className = 'bminput tag';
@@ -91,16 +94,18 @@ addon.port.on('queryResults', function(results, id) {
     const domainInitial = {All: {
         count: results.length
     }};
-    const filteredResults = results.filter(result => elasticmarks.domainfilter(result, checkedTLD));
-    const domains = filteredResults.reduce(elasticmarks.domaincount, domainInitial);
-    filteredResults.map(elasticmarks.createElements)
-        .map(bookmark => resultsList.appendChild(bookmark));
-
     const fstags = document.getElementById('fstags');
-    const tags = filteredResults.reduce(elasticmarks.tagCounter, {});
+    const checkedTags = Array.from(fstags.querySelectorAll('input[type=checkbox]:checked').values()).map(cb => cb.value);
+    const domainFilteredResults = results.filter(result => elasticmarks.domainfilter(result, checkedTLD));
+    const tagFilteredResults = domainFilteredResults.filter(bm => elasticmarks.tagfilter(bm, checkedTags));
+
+    const domains = tagFilteredResults.reduce(elasticmarks.domaincount, domainInitial);
+    tagFilteredResults.map(elasticmarks.createElements)
+        .map(bookmark => resultsList.appendChild(bookmark));
+    const tags = tagFilteredResults.reduce(elasticmarks.tagCounter, {});
 
     elasticmarks.displayDomains(fsdomains, domains, checkedTLD);
-    elasticmarks.displayTags(fstags, tags);
+    elasticmarks.displayTags(fstags, tags, checkedTags);
 
 
     var search = document.querySelectorAll('.bminput');
