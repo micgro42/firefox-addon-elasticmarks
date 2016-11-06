@@ -1,6 +1,9 @@
 'use strict';
 var elasticmarks = elasticmarks || {};
 
+elasticmarks.tagfilter = function tagfilter(bookmark, checkedTags) {
+    return checkedTags ? checkedTags.reduce((valid, tag) => valid && bookmark.tags.includes(tag), true) : true;
+};
 
 elasticmarks.tagCounter = function (carrier, bookmark) {
     return bookmark.tags.reduce(function(carrier, tag) {
