@@ -26,6 +26,33 @@ elasticmarks.createElements = function(result) {
     return node;
 };
 
+elasticmarks.displayDomains = function (fsdomains, domains, checkedTLD) {
+    while (fsdomains.lastChild) {
+        if (fsdomains.lastChild.tagName === 'LEGEND') {
+            break;
+        }
+        fsdomains.removeChild(fsdomains.lastChild);
+    }
+    var domainList = Object.keys(domains);
+    domainList.forEach(function(domainname) {
+        var cb = document.createElement('INPUT');
+        cb.type = 'checkbox';
+        cb.value = domainname;
+        cb.id = 'domain-' + domainname;
+        if (checkedTLD && domainname === checkedTLD) {
+            cb.checked = true;
+        }
+        const count = domains[domainname].count;
+        var label = document.createElement('LABEL');
+        label.className = 'bminput domain';
+        label.htmlFor = cb.id;
+        label.appendChild(document.createTextNode(domainname+' ('+count+')'));
+        label.style.order = count;
+        fsdomains.appendChild(cb);
+        fsdomains.appendChild(label);
+    });
+};
+
 addon.port.on('queryResults', function(results, id) {
     if (id !== queryId) {
         return;
@@ -45,29 +72,8 @@ addon.port.on('queryResults', function(results, id) {
     filteredResults.map(elasticmarks.createElements)
         .map(bookmark => resultsList.appendChild(bookmark));
 
+    elasticmarks.displayDomains(fsdomains, domains, checkedTLD);
 
-    while (fsdomains.lastChild) {
-        if (fsdomains.lastChild.tagName === 'LEGEND') {
-            break;
-        }
-        fsdomains.removeChild(fsdomains.lastChild);
-    }
-    var domainList = Object.keys(domains);
-    domainList.forEach(function(domainname) {
-        var cb = document.createElement('INPUT');
-        cb.type = 'checkbox';
-        cb.value = domainname;
-        cb.id = 'domain-' + domainname;
-        if (checkedTLD && domainname === checkedTLD) {
-            cb.checked = true;
-        }
-        var label = document.createElement('LABEL');
-        label.className = 'bminput domain';
-        label.htmlFor = cb.id;
-        label.appendChild(document.createTextNode(domainname+' ('+domains[domainname].count+')'));
-        fsdomains.appendChild(cb);
-        fsdomains.appendChild(label);
-    });
 
     var search = document.querySelectorAll('.bminput');
     search.forEach(function(element){
